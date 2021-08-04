@@ -2,8 +2,10 @@
 
 namespace App\Admin\Controllers;
 
+use App\Enums\RoomStatus;
 use App\Models\Room;
 use App\Http\Controllers\Controller;
+use App\Models\RoomType;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -23,8 +25,8 @@ class RoomController extends Controller
     public function index(Content $content)
     {
         return $content
-            ->header(trans('admin.index'))
-            ->description(trans('admin.description'))
+            ->header('Ruangan')
+            ->description(trans('admin.list'))
             ->body($this->grid());
     }
 
@@ -38,8 +40,8 @@ class RoomController extends Controller
     public function show($id, Content $content)
     {
         return $content
-            ->header(trans('admin.detail'))
-            ->description(trans('admin.description'))
+            ->header('Ruangan')
+            ->description(trans('admin.show'))
             ->body($this->detail($id));
     }
 
@@ -53,8 +55,8 @@ class RoomController extends Controller
     public function edit($id, Content $content)
     {
         return $content
-            ->header(trans('admin.edit'))
-            ->description(trans('admin.description'))
+            ->header('Ruangan')
+            ->description(trans('admin.edit'))
             ->body($this->form()->edit($id));
     }
 
@@ -67,8 +69,8 @@ class RoomController extends Controller
     public function create(Content $content)
     {
         return $content
-            ->header(trans('admin.create'))
-            ->description(trans('admin.description'))
+            ->header('Ruangan')
+            ->description(trans('admin.create'))
             ->body($this->form());
     }
 
@@ -124,14 +126,26 @@ class RoomController extends Controller
     {
         $form = new Form(new Room);
 
-        $form->display('ID');
-        $form->text('name', 'name');
-        $form->text('max_people', 'max_people');
-        $form->text('status', 'status');
-        $form->text('notes', 'notes');
-        $form->text('room_type', 'room_type');
-        $form->display(trans('admin.created_at'));
-        $form->display(trans('admin.updated_at'));
+        if ($form->isEditing())
+            $form->display('id', 'ID');
+
+        $form->text('name', 'Nama');
+        $form->select('room_type_id', 'Tipe Ruangan')->options(function ($id) {
+            return RoomType::all()->pluck('name', 'id');
+        });
+        $form->slider('max_people', 'Maksimal Orang')->options([
+            'min' => 1,
+            'max' => 100,
+            'from' => 20,
+            'postfix' => ' orang'
+        ]);
+        $form->radio('status', 'Status')->options(RoomStatus::asSelectArray())->stacked();
+        $form->textarea('notes', 'Catatan');
+
+        if ($form->isEditing()) {
+            $$form->display('created_at', trans('admin.created_at'));
+            $form->display('updated_at', trans('admin.updated_at'));
+        }
 
         return $form;
     }

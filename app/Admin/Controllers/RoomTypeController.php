@@ -23,8 +23,8 @@ class RoomTypeController extends Controller
     public function index(Content $content)
     {
         return $content
-            ->header(trans('admin.index'))
-            ->description(trans('admin.description'))
+            ->header('Tipe Ruangan')
+            ->description(trans('admin.list'))
             ->body($this->grid());
     }
 
@@ -38,8 +38,8 @@ class RoomTypeController extends Controller
     public function show($id, Content $content)
     {
         return $content
-            ->header(trans('admin.detail'))
-            ->description(trans('admin.description'))
+            ->header('Tipe Ruangan')
+            ->description(trans('admin.show'))
             ->body($this->detail($id));
     }
 
@@ -53,8 +53,8 @@ class RoomTypeController extends Controller
     public function edit($id, Content $content)
     {
         return $content
-            ->header(trans('admin.edit'))
-            ->description(trans('admin.description'))
+            ->header('Tipe Ruangan')
+            ->description(trans('admin.edit'))
             ->body($this->form()->edit($id));
     }
 
@@ -67,8 +67,8 @@ class RoomTypeController extends Controller
     public function create(Content $content)
     {
         return $content
-            ->header(trans('admin.create'))
-            ->description(trans('admin.description'))
+            ->header('Tipe Ruangan')
+            ->description(trans('admin.create'))
             ->body($this->form());
     }
 
@@ -82,8 +82,10 @@ class RoomTypeController extends Controller
         $grid = new Grid(new RoomType);
 
         $grid->id('ID');
-        $grid->name('name');
-        $grid->is_active('is_active');
+
+        $grid->name('Nama');
+        $grid->is_active('Aktif?')->bool();
+
         $grid->created_at(trans('admin.created_at'));
         $grid->updated_at(trans('admin.updated_at'));
 
@@ -101,8 +103,10 @@ class RoomTypeController extends Controller
         $show = new Show(RoomType::findOrFail($id));
 
         $show->id('ID');
-        $show->name('name');
-        $show->is_active('is_active');
+
+        $show->name('Nama');
+        $show->is_active('Aktif?')->using(['1' => 'Ya', '0' => 'Tidak']);
+
         $show->created_at(trans('admin.created_at'));
         $show->updated_at(trans('admin.updated_at'));
 
@@ -118,11 +122,19 @@ class RoomTypeController extends Controller
     {
         $form = new Form(new RoomType);
 
-        $form->display('ID');
-        $form->text('name', 'name');
-        $form->text('is_active', 'is_active');
-        $form->display(trans('admin.created_at'));
-        $form->display(trans('admin.updated_at'));
+        if ($form->isEditing())
+            $form->display('id', 'ID');
+
+        $form->text('name', 'Nama');
+        $form->switch('is_active', 'Aktif?')->states([
+            'on' =>     ['value' => 1, 'text' => 'Ya', 'color' => 'success'],
+            'off' =>    ['value' => 0, 'text' => 'Tidak', 'color' => 'danger'],
+        ]);
+
+        if ($form->isEditing()) {
+            $form->display('created_at', trans('admin.created_at'));
+            $form->display('updated_at', trans('admin.updated_at'));
+        }
 
         return $form;
     }

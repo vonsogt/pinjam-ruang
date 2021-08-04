@@ -17,7 +17,7 @@ class CreateRoomsTable extends Migration
             $table->id();
             $table->string('name');
             $table->integer('max_people')->nullable();
-            $table->tinyInteger('status');
+            $table->tinyInteger('status')->default(0);
             $table->text('notes')->nullable();
             $table->foreignId('room_type_id')->constrained();
             $table->timestamps();

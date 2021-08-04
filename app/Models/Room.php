@@ -11,4 +11,12 @@ class Room extends Model
     use HasFactory, SoftDeletes;
 
     private $tables = 'rooms';
+
+    /**
+     * Relationship
+     */
+    public function room_type()
+    {
+        return $this->belongsTo(RoomType::class);
+    }
 }
