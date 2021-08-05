@@ -15,4 +15,5 @@ Route::group([
 
     $router->resource('room-types', RoomTypeController::class);
     $router->resource('rooms', RoomController::class);
+    $router->resource('borrow-rooms', BorrowRoomController::class);
 });

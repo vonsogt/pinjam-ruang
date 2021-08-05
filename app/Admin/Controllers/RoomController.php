@@ -84,13 +84,18 @@ class RoomController extends Controller
         $grid = new Grid(new Room);
 
         $grid->id('ID');
-        $grid->name('name');
-        $grid->max_people('max_people');
-        $grid->status('status');
-        $grid->notes('notes');
-        $grid->room_type('room_type');
-        $grid->created_at(trans('admin.created_at'));
-        $grid->updated_at(trans('admin.updated_at'));
+
+        $grid->column('name', 'Nama');
+        $grid->column('room_type.name', 'Tipe Ruangan');
+        $grid->column('max_people', 'Maks Orang');
+        $grid->column('status', 'Status')
+            ->using(RoomStatus::asSelectArray())
+            ->label([
+                0 => 'success',
+                1 => 'warning',
+                2 => 'info',
+                3 => 'danger',
+            ]);
 
         return $grid;
     }
@@ -106,11 +111,11 @@ class RoomController extends Controller
         $show = new Show(Room::findOrFail($id));
 
         $show->id('ID');
-        $show->name('name');
-        $show->max_people('max_people');
-        $show->status('status');
-        $show->notes('notes');
-        $show->room_type('room_type');
+        $show->field('name', 'Nama');
+        $show->field('room_type.name', 'Tipe Ruangan');
+        $show->field('max_people', 'Maks Orang');
+        $show->field('status', 'Status')->using(RoomStatus::asSelectArray());
+        $show->field('notes', 'Catatan');
         $show->created_at(trans('admin.created_at'));
         $show->updated_at(trans('admin.updated_at'));
 
@@ -143,7 +148,7 @@ class RoomController extends Controller
         $form->textarea('notes', 'Catatan');
 
         if ($form->isEditing()) {
-            $$form->display('created_at', trans('admin.created_at'));
+            $form->display('created_at', trans('admin.created_at'));
             $form->display('updated_at', trans('admin.updated_at'));
         }
 
