@@ -9,7 +9,7 @@ use BenSampo\Enum\Enum;
  * @method static static Disetujui()
  * @method static static Ditolak()
  */
-final class ApprovedStatus extends Enum
+final class ApprovalStatus extends Enum
 {
     const Pending =     0;
     const Disetujui =   1;

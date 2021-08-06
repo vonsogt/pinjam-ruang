@@ -2,8 +2,13 @@
 
 namespace App\Admin\Controllers;
 
+use App\Enums\ApprovalStatus;
 use App\Models\BorrowRoom;
 use App\Http\Controllers\Controller;
+use App\Models\Room;
+use App\Models\User;
+use Encore\Admin\Admin;
+use Encore\Admin\Auth\Database\Administrator;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -87,9 +92,9 @@ class BorrowRoomController extends Controller
         $grid->borrow_at('borrow_at');
         $grid->until_at('until_at');
         $grid->lecturer_id('lecturer_id');
-        $grid->approved_by_lecturer_status('approved_by_lecturer_status');
+        $grid->lecturer_approval_status('lecturer_approval_status');
         $grid->admin_id('admin_id');
-        $grid->approved_by_admin_status('approved_by_admin_status');
+        $grid->admin_approval_status('admin_approval_status');
         $grid->processed_at('processed_at');
         $grid->returned_at('returned_at');
         $grid->notes('notes');
@@ -115,9 +120,9 @@ class BorrowRoomController extends Controller
         $show->borrow_at('borrow_at');
         $show->until_at('until_at');
         $show->lecturer_id('lecturer_id');
-        $show->approved_by_lecturer_status('approved_by_lecturer_status');
+        $show->lecturer_approval_status('lecturer_approval_status');
         $show->admin_id('admin_id');
-        $show->approved_by_admin_status('approved_by_admin_status');
+        $show->admin_approval_status('admin_approval_status');
         $show->processed_at('processed_at');
         $show->returned_at('returned_at');
         $show->notes('notes');
@@ -136,20 +141,46 @@ class BorrowRoomController extends Controller
     {
         $form = new Form(new BorrowRoom);
 
-        $form->display('ID');
-        $form->text('borrower_id', 'borrower_id');
-        $form->text('room_id', 'room_id');
-        $form->text('borrow_at', 'borrow_at');
-        $form->text('until_at', 'until_at');
-        $form->text('lecturer_id', 'lecturer_id');
-        $form->text('approved_by_lecturer_status', 'approved_by_lecturer_status');
-        $form->text('admin_id', 'admin_id');
-        $form->text('approved_by_admin_status', 'approved_by_admin_status');
-        $form->text('processed_at', 'processed_at');
-        $form->text('returned_at', 'returned_at');
-        $form->text('notes', 'notes');
-        $form->display(trans('admin.created_at'));
-        $form->display(trans('admin.updated_at'));
+        if ($form->isEditing())
+            $form->display('ID');
+
+        // Mahasiswa Form
+        $form->select('borrower_id', 'Peminjam')->options(function ($id) {
+            $college_students = Administrator::find($id);
+            if ($college_students)
+                return [$college_students->id => $college_students->name];
+        })->ajax('/admin/api/college-students');
+        $form->select('room_id', 'Ruangan')->options(function ($id) {
+            $room = Room::find($id);
+            if ($room)
+                return [$room->id => $room->name];
+        })->ajax('/admin/api/rooms');
+        $form->datetime('borrow_at', 'Mulai Pinjam')->format('YYYY-MM-DD HH:mm');
+        $form->datetime('until_at', 'Selesai Pinjam')->format('YYYY-MM-DD HH:mm');
+
+        // Persetujuan Dosen
+        $form->select('lecturer_id', 'Dosen')->options(function ($id) {
+            $lecturers = Administrator::find($id);
+            if ($lecturers)
+                return [$lecturers->id => $lecturers->name];
+        })->ajax('/admin/api/lecturers');
+        $form->radio('lecturer_approval_status', 'Status Persetujuan Dosen')->options(ApprovalStatus::asSelectArray());
+
+        // Persetujuan dan administrasi Tata usaha
+        $form->select('admin_id', 'Tata Usaha')->options(function ($id) {
+            $administrators = Administrator::find($id);
+            if ($administrators)
+                return [$administrators->id => $administrators->name];
+        })->ajax('/admin/api/administrators');
+        $form->radio('admin_approval_status', 'Status Persetujuan Tata Usaha')->options(ApprovalStatus::asSelectArray());
+        $form->datetime('processed_at', 'Diproses Pada')->format('YYYY-MM-DD HH:mm');
+        $form->datetime('returned_at', 'Diselesaikan Pada')->format('YYYY-MM-DD HH:mm');
+        $form->textarea('notes', 'Catatan');
+
+        if ($form->isEditing()) {
+            $form->display(trans('admin.created_at'));
+            $form->display(trans('admin.updated_at'));
+        }
 
         return $form;
     }
