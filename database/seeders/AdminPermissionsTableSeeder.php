@@ -14,13 +14,9 @@ class AdminPermissionsTableSeeder extends Seeder
      */
     public function run()
     {
-        
-
-        \DB::table('admin_permissions')->delete();
-        
-        \DB::table('admin_permissions')->insert(array (
-            0 => 
-            array (
+        $admin_permissions = array(
+            0 =>
+            array(
                 'id' => 1,
                 'name' => 'All permission',
                 'slug' => '*',
@@ -29,8 +25,8 @@ class AdminPermissionsTableSeeder extends Seeder
                 'created_at' => NULL,
                 'updated_at' => NULL,
             ),
-            1 => 
-            array (
+            1 =>
+            array(
                 'id' => 2,
                 'name' => 'Dashboard',
                 'slug' => 'dashboard',
@@ -39,19 +35,19 @@ class AdminPermissionsTableSeeder extends Seeder
                 'created_at' => NULL,
                 'updated_at' => NULL,
             ),
-            2 => 
-            array (
+            2 =>
+            array(
                 'id' => 3,
                 'name' => 'Login',
                 'slug' => 'auth.login',
                 'http_method' => '',
                 'http_path' => '/auth/login
-/auth/logout',
+                                /auth/logout',
                 'created_at' => NULL,
                 'updated_at' => NULL,
             ),
-            3 => 
-            array (
+            3 =>
+            array(
                 'id' => 4,
                 'name' => 'User setting',
                 'slug' => 'auth.setting',
@@ -60,21 +56,21 @@ class AdminPermissionsTableSeeder extends Seeder
                 'created_at' => NULL,
                 'updated_at' => NULL,
             ),
-            4 => 
-            array (
+            4 =>
+            array(
                 'id' => 5,
                 'name' => 'Auth management',
                 'slug' => 'auth.management',
                 'http_method' => '',
                 'http_path' => '/auth/roles
-/auth/permissions
-/auth/menu
-/auth/logs',
+                                /auth/permissions
+                                /auth/menu
+                                /auth/logs',
                 'created_at' => NULL,
                 'updated_at' => NULL,
             ),
-            5 => 
-            array (
+            5 =>
+            array(
                 'id' => 6,
                 'name' => 'Admin helpers',
                 'slug' => 'ext.helpers',
@@ -83,8 +79,12 @@ class AdminPermissionsTableSeeder extends Seeder
                 'created_at' => '2021-08-04 22:20:58',
                 'updated_at' => '2021-08-04 22:20:58',
             ),
-        ));
-        
-        
+        );
+
+        // Checking if the table already have a query
+        if (is_null(\DB::table('admin_permissions')->first()))
+            \DB::table('admin_permissions')->insert($admin_permissions);
+        else
+            echo "\e[31mTable is not empty, therefore NOT ";
     }
 }

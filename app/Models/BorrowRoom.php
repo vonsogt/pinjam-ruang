@@ -17,6 +17,30 @@ class BorrowRoom extends Model
      */
     public function room()
     {
-        $this->belongsTo(Room::class);
+        return $this->belongsTo(Room::class);
     }
+
+    public function borrower()
+    {
+        return $this->belongsTo(Administrator::class);
+    }
+
+    public function lecturer()
+    {
+        return $this->belongsTo(Administrator::class);
+    }
+
+    public function admin()
+    {
+        return $this->belongsTo(Administrator::class);
+    }
+
+    /**
+     * Accessor
+     */
+
+
+    /**
+     * Mutators
+     */
 }

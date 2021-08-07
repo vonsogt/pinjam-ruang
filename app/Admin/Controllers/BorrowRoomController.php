@@ -6,8 +6,7 @@ use App\Enums\ApprovalStatus;
 use App\Models\BorrowRoom;
 use App\Http\Controllers\Controller;
 use App\Models\Room;
-use App\Models\User;
-use Encore\Admin\Admin;
+use Carbon\Carbon;
 use Encore\Admin\Auth\Database\Administrator;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
@@ -87,19 +86,39 @@ class BorrowRoomController extends Controller
         $grid = new Grid(new BorrowRoom);
 
         $grid->id('ID');
-        $grid->borrower_id('borrower_id');
-        $grid->room_id('room_id');
-        $grid->borrow_at('borrow_at');
-        $grid->until_at('until_at');
-        $grid->lecturer_id('lecturer_id');
-        $grid->lecturer_approval_status('lecturer_approval_status');
-        $grid->admin_id('admin_id');
-        $grid->admin_approval_status('admin_approval_status');
-        $grid->processed_at('processed_at');
-        $grid->returned_at('returned_at');
-        $grid->notes('notes');
-        $grid->created_at(trans('admin.created_at'));
-        $grid->updated_at(trans('admin.updated_at'));
+        $grid->column('borrower.name', 'Peminjam');
+        $grid->column('room.name', 'Ruangan');
+        $grid->column('borrow_at', 'Mulai Pinjam')->display(function ($title, $column) {
+            return Carbon::parse($title)->format('d M Y');
+        });
+        $grid->column('until_at', 'Lama Pinjam (hari)')->display(function ($title, $column) {
+            $borrow_at = Carbon::parse($this->borrow_at);
+            $until_at = Carbon::parse($title);
+            $count_days = $borrow_at->diffInDays($until_at, false);
+
+            return ($count_days + 1) . ' hari';
+        });
+        $grid->column('lecturer.name', 'Dosen');
+        $grid->column('status', 'Status')->display(function ($title, $column) {
+            $lecturer_approval_status = $this->lecturer_approval_status;
+            $admin_approval_status = $this->admin_approval_status;
+
+            if ($lecturer_approval_status == 1) {
+                if ($admin_approval_status == 1)
+                    $val = ['success', 'Sudah disetujui TU'];
+                else if ($admin_approval_status == 0)
+                    $val = ['info', 'Menunggu persetujuan TU'];
+                else
+                    $val = ['danger', 'Ditolak TU'];
+            } else if ($lecturer_approval_status == 0) {
+                $val = ['info', 'Menunggu persetujuan Dosen'];
+            } else {
+                $val = ['danger', 'Ditolak Dosen'];
+            }
+
+            return '<span class="label-' . $val[0] . '" style="width: 8px;height: 8px;padding: 0;border-radius: 50%;display: inline-block;"></span>&nbsp;&nbsp;'
+                . $val[1];
+        });
 
         return $grid;
     }
@@ -115,17 +134,17 @@ class BorrowRoomController extends Controller
         $show = new Show(BorrowRoom::findOrFail($id));
 
         $show->id('ID');
-        $show->borrower_id('borrower_id');
-        $show->room_id('room_id');
-        $show->borrow_at('borrow_at');
-        $show->until_at('until_at');
-        $show->lecturer_id('lecturer_id');
-        $show->lecturer_approval_status('lecturer_approval_status');
-        $show->admin_id('admin_id');
-        $show->admin_approval_status('admin_approval_status');
-        $show->processed_at('processed_at');
-        $show->returned_at('returned_at');
-        $show->notes('notes');
+        $show->field('borrower.name', 'Peminjam');
+        $show->field('room.name', 'Ruangan');
+        $show->field('borrow_at', 'Mulai Pinjam');
+        $show->field('until_at', 'Selesai Pinjam');
+        $show->field('lecturer.name', 'Dosen');
+        $show->field('lecturer_approval_status', 'Status Persetujuan Dosen')->using(ApprovalStatus::asSelectArray());;
+        $show->field('admin.name', ' Tata Usaha');
+        $show->field('admin_approval_status', 'Status Persetujuan Tata Usaha')->using(ApprovalStatus::asSelectArray());;
+        $show->field('processed_at', 'Diproses Pada');
+        $show->field('returned_at', 'Diselesaikan Pada');
+        $show->field('notes', 'Catatan');
         $show->created_at(trans('admin.created_at'));
         $show->updated_at(trans('admin.updated_at'));
 
@@ -142,7 +161,7 @@ class BorrowRoomController extends Controller
         $form = new Form(new BorrowRoom);
 
         if ($form->isEditing())
-            $form->display('ID');
+            $form->display('id', 'ID');
 
         // Mahasiswa Form
         $form->select('borrower_id', 'Peminjam')->options(function ($id) {
@@ -178,8 +197,8 @@ class BorrowRoomController extends Controller
         $form->textarea('notes', 'Catatan');
 
         if ($form->isEditing()) {
-            $form->display(trans('admin.created_at'));
-            $form->display(trans('admin.updated_at'));
+            $form->display('created_at', trans('admin.created_at'));
+            $form->display('updated_at', trans('admin.updated_at'));
         }
 
         return $form;

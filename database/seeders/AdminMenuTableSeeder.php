@@ -14,25 +14,21 @@ class AdminMenuTableSeeder extends Seeder
      */
     public function run()
     {
-        
-
-        \DB::table('admin_menu')->delete();
-        
-        \DB::table('admin_menu')->insert(array (
-            0 => 
-            array (
+        $admin_menu = array(
+            0 =>
+            array(
                 'id' => 1,
                 'parent_id' => 0,
                 'order' => 1,
-                'title' => 'Dashboard',
-                'icon' => 'fa-bar-chart',
+                'title' => 'Dasbor',
+                'icon' => 'fa-dashboard',
                 'uri' => '/',
                 'permission' => NULL,
                 'created_at' => NULL,
                 'updated_at' => NULL,
             ),
-            1 => 
-            array (
+            1 =>
+            array(
                 'id' => 2,
                 'parent_id' => 0,
                 'order' => 5,
@@ -43,8 +39,8 @@ class AdminMenuTableSeeder extends Seeder
                 'created_at' => NULL,
                 'updated_at' => '2021-08-04 22:22:42',
             ),
-            2 => 
-            array (
+            2 =>
+            array(
                 'id' => 3,
                 'parent_id' => 2,
                 'order' => 6,
@@ -55,8 +51,8 @@ class AdminMenuTableSeeder extends Seeder
                 'created_at' => NULL,
                 'updated_at' => '2021-08-04 22:22:42',
             ),
-            3 => 
-            array (
+            3 =>
+            array(
                 'id' => 4,
                 'parent_id' => 2,
                 'order' => 7,
@@ -67,8 +63,8 @@ class AdminMenuTableSeeder extends Seeder
                 'created_at' => NULL,
                 'updated_at' => '2021-08-04 22:22:42',
             ),
-            4 => 
-            array (
+            4 =>
+            array(
                 'id' => 5,
                 'parent_id' => 2,
                 'order' => 8,
@@ -79,8 +75,8 @@ class AdminMenuTableSeeder extends Seeder
                 'created_at' => NULL,
                 'updated_at' => '2021-08-04 22:22:42',
             ),
-            5 => 
-            array (
+            5 =>
+            array(
                 'id' => 6,
                 'parent_id' => 2,
                 'order' => 9,
@@ -91,8 +87,8 @@ class AdminMenuTableSeeder extends Seeder
                 'created_at' => NULL,
                 'updated_at' => '2021-08-04 22:22:42',
             ),
-            6 => 
-            array (
+            6 =>
+            array(
                 'id' => 7,
                 'parent_id' => 2,
                 'order' => 10,
@@ -103,8 +99,8 @@ class AdminMenuTableSeeder extends Seeder
                 'created_at' => NULL,
                 'updated_at' => '2021-08-04 22:22:42',
             ),
-            7 => 
-            array (
+            7 =>
+            array(
                 'id' => 8,
                 'parent_id' => 0,
                 'order' => 11,
@@ -115,8 +111,8 @@ class AdminMenuTableSeeder extends Seeder
                 'created_at' => '2021-08-04 22:20:58',
                 'updated_at' => '2021-08-04 22:22:42',
             ),
-            8 => 
-            array (
+            8 =>
+            array(
                 'id' => 9,
                 'parent_id' => 8,
                 'order' => 12,
@@ -127,8 +123,8 @@ class AdminMenuTableSeeder extends Seeder
                 'created_at' => '2021-08-04 22:20:58',
                 'updated_at' => '2021-08-04 22:22:42',
             ),
-            9 => 
-            array (
+            9 =>
+            array(
                 'id' => 10,
                 'parent_id' => 8,
                 'order' => 13,
@@ -139,8 +135,8 @@ class AdminMenuTableSeeder extends Seeder
                 'created_at' => '2021-08-04 22:20:58',
                 'updated_at' => '2021-08-04 22:22:42',
             ),
-            10 => 
-            array (
+            10 =>
+            array(
                 'id' => 11,
                 'parent_id' => 8,
                 'order' => 14,
@@ -151,8 +147,8 @@ class AdminMenuTableSeeder extends Seeder
                 'created_at' => '2021-08-04 22:20:58',
                 'updated_at' => '2021-08-04 22:22:42',
             ),
-            11 => 
-            array (
+            11 =>
+            array(
                 'id' => 12,
                 'parent_id' => 8,
                 'order' => 15,
@@ -163,8 +159,8 @@ class AdminMenuTableSeeder extends Seeder
                 'created_at' => '2021-08-04 22:20:58',
                 'updated_at' => '2021-08-04 22:22:42',
             ),
-            12 => 
-            array (
+            12 =>
+            array(
                 'id' => 13,
                 'parent_id' => 0,
                 'order' => 2,
@@ -175,8 +171,8 @@ class AdminMenuTableSeeder extends Seeder
                 'created_at' => '2021-08-04 22:21:35',
                 'updated_at' => '2021-08-04 22:22:42',
             ),
-            13 => 
-            array (
+            13 =>
+            array(
                 'id' => 14,
                 'parent_id' => 0,
                 'order' => 3,
@@ -187,8 +183,8 @@ class AdminMenuTableSeeder extends Seeder
                 'created_at' => '2021-08-04 22:22:06',
                 'updated_at' => '2021-08-04 22:22:42',
             ),
-            14 => 
-            array (
+            14 =>
+            array(
                 'id' => 15,
                 'parent_id' => 0,
                 'order' => 4,
@@ -199,8 +195,12 @@ class AdminMenuTableSeeder extends Seeder
                 'created_at' => '2021-08-04 22:22:30',
                 'updated_at' => '2021-08-04 22:22:42',
             ),
-        ));
-        
-        
+        );
+
+        // Checking if the table already have a query
+        if (is_null(\DB::table('admin_menu')->first()))
+            \DB::table('admin_menu')->insert($admin_menu);
+        else
+            echo "\e[31mTable is not empty, therefore NOT ";
     }
 }
