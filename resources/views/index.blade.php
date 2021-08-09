@@ -27,7 +27,7 @@
 			<div class="container">
 				<div class="row justify-content-between">
 						<div class="col d-flex align-items-center">
-							<p class="mb-0 phone"><span class="mailus">No telepon:</span> <a href="#">+62 1234 567</a> or <span class="mailus">email kami:</span> <a href="mailto:polibatam.pinjamruang@gmail.com">polibatam.pinjamruang@gmail.com</a></p>
+							<p class="mb-0 phone"><span class="mailus">No hp:</span> <a href="#">+62 1234 567</a> atau <span class="mailus">email:</span> <a href="mailto:polibatam.pinjamruang@gmail.com">polibatam.pinjamruang@gmail.com</a></p>
 						</div>
 						<div class="col d-flex justify-content-end">
 							<div class="social-media">
@@ -109,7 +109,7 @@
 	          					<div class="select-wrap">
 	                      <div class="icon"><span class="fa fa-chevron-down"></span></div>
 	                      <select name="" id="" class="form-control">
-	                      	<option value="" disabled>Pilih ruangan</option>
+	                      	<option value="" selected disabled>Pilih ruangan</option>
                             @forelse ($data['rooms'] as $room)
                                 <option value="{{ $room->id }}">{{ $room->room_type->name . ' - ' . $room->name }}</option>
                             @empty
@@ -122,17 +122,34 @@
 								</div>
 								<div class="col-md-6">
 									<div class="form-group">
-			    					<input type="text" class="form-control" placeholder="Nomor telepon">
+			    					<input type="text" class="form-control" placeholder="NIM">
 			    				</div>
 								</div>
 								<div class="col-md-6">
 									<div class="form-group">
-			    					<div class="input-wrap">
-			            		<div class="icon"><span class="ion-ios-clock"></span></div>
-			            		<input type="text" class="form-control appointment_time" placeholder="Jam">
-		            		</div>
+			    					<div class="form-field">
+	          					<div class="select-wrap">
+	                      <div class="icon"><span class="fa fa-chevron-down"></span></div>
+	                      <select name="" id="" class="form-control">
+	                      	<option value="" selected disabled>Prodi</option>
+	                      	<option value="teknik-informatika">Teknik Informatika (D3)</option>
+	                      	<option value="teknik-Multimedia-dan-jaringan">Teknik Multimedia & Jaringan (D4)</option>
+	                      	<option value="teknik-geomatika">Teknik Geomatika (D3)</option>
+	                      	<option value="animasi">Animasi (D4)</option>
+	                      	<option value="rekayasa-keamanan-siber">Rekayasa Keamanan Siber (D4)</option>
+	                      </select>
+	                    </div>
+			              </div>
 			    				</div>
 								</div>
+								{{-- <div class="col-md-6">
+									<div class="form-group">
+			    					<div class="input-wrap">
+			            		<div class="icon"><span class="ion-ios-clock"></span></div>
+			            		<input type="text" class="form-control appointment_time" placeholder="Prodi">
+		            		</div>
+			    				</div>
+								</div> --}}
 								<div class="col-md-12">
 									<div class="form-group">
 			              <input type="submit" value="Pinjam Ruang Sekarang" class="btn btn-primary py-3 px-4">
