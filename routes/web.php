@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\API\V1\BorrowRoomApiController;
 use App\Http\Controllers\HomeController;
+use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,3 +17,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [HomeController::class, 'index']);
+
+Route::group([
+    'prefix'    => 'api/v1',
+    'as'        => 'api.v1.'
+], function (Router $router) {
+    $router->post('borrow-room-with-college-student', [BorrowRoomApiController::class, 'storeBorrowRoomWithCollegeStudent'])->name('borrow-room-with-college-student');
+});

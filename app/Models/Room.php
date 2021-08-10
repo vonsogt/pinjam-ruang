@@ -10,7 +10,7 @@ class Room extends Model
 {
     use HasFactory, SoftDeletes;
 
-    private $tables = 'rooms';
+    protected $tables = 'rooms';
 
     /**
      * Relationship

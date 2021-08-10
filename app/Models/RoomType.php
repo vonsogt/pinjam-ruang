@@ -9,7 +9,7 @@ class RoomType extends Model
 {
     use HasFactory;
 
-    private $tables = 'room_types';
+    protected $tables = 'room_types';
 
     /**
      * Relationship
