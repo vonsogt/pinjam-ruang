@@ -92,6 +92,14 @@
                                     </button>
                                 </div>
                             @endif
+                            @if (session('success'))
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    Pinjam ruang berhasil, silahkan cek status peminjaman <a href="{{ route('admin.login') }}">disini</a>.
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            @endif
 							<div class="row">
 								<div class="col-md-12">
 									<div class="form-group">
@@ -114,7 +122,7 @@
 		            		</div>
 			    				</div>
 								</div>
-								<div class="col-md-12">
+								<div class="col-md-6">
 									<div class="form-group">
 			    					<div class="form-field">
 	          					<div class="select-wrap">
@@ -127,6 +135,25 @@
                                 </option>
                             @empty
                                 <option value="" disabled>Belum ada ruangan yang tersedia</option>
+                            @endforelse
+	                      </select>
+	                    </div>
+			              </div>
+			    				</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+			    					<div class="form-field">
+	          					<div class="select-wrap">
+	                      <div class="icon"><span class="fa fa-chevron-down"></span></div>
+	                      <select name="lecturer" id="" class="form-control">
+	                      	<option value="" selected disabled>Pilih dosen</option>
+                            @forelse ($data['lecturers'] as $lecturer)
+                                <option value="{{ $lecturer->id }}" @if(old('lecturer') == $lecturer->id) selected @endif>
+                                    {{ $lecturer->name }}
+                                </option>
+                            @empty
+                                <option value="" disabled>Belum ada dosen yang terdaftar</option>
                             @endforelse
 	                      </select>
 	                    </div>
