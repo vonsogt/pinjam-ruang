@@ -17,4 +17,11 @@ class HomeController extends Controller
 
         return view('index', compact('data'));
     }
+
+    public function rooms()
+    {
+        $data['rooms'] = Room::with('room_type')->get();
+
+        return view('pages.rooms', compact('data'));
+    }
 }

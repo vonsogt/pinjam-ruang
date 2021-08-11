@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
-use App\Models\UserDetail;
+use App\Models\BorrowRoom;
+use App\Models\AdminUserDetail;
 use Encore\Admin\Auth\Database\Administrator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -15,16 +16,23 @@ class BorrowRoomApiController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'full_name' =>      'required|string',
-            'borrow_at' =>      'required',
-            'until_at' =>       'required',
+            'borrow_at' =>      'required|date|after_or_equal:' . date('Y-m-d'),
+            'until_at' =>       'required|date|after_or_equal:borrow_at',
             'room' =>           'required',
             'lecturer' =>       'required',
             'nim' =>            'required|integer',
             'study_program' =>  'required',
         ], [
             'full_name.required' => 'Kolom nama lengkap wajib diisi.',
-            'borrow_at.required' => 'Kolom tgl mulai wajib diisi.',
-            'until_at.required' =>  'Kolom tgl selesai wajib diisi.',
+
+            'borrow_at.required' =>         'Kolom tgl mulai wajib diisi.',
+            'borrow_at.date' =>             'Kolom tgl mulai bukan tanggal yang valid.',
+            'borrow_at.after_or_equal' =>   'Kolom tgl mulai harus berisi tanggal setelah atau sama dengan :date.',
+
+            'until_at.required' =>          'Kolom tgl selesai wajib diisi.',
+            'until_at.date' =>              'Kolom tgl selesai bukan tanggal yang valid.',
+            'until_at.after_or_equal' =>    'Kolom tgl selesai harus berisi tanggal setelah atau sama dengan tgl mulai.',
+
             'room.required' =>      'Kolom ruangan wajib diisi.',
             'lecturer.required' =>  'Kolom dosen wajib diisi.',
 
@@ -37,9 +45,14 @@ class BorrowRoomApiController extends Controller
         if ($validator->fails())
             return back()->withInput($request->input())->withErrors($validator);
 
-        $full_name =        $request->full_name;
+        $full_name =        \Str::upper($request->full_name);
         $nim =              $request->nim;
         $study_program =    $request->study_program;
+        $data =             json_encode([
+            'full_name' =>      $full_name,
+            'nim'       =>      $nim,
+            'study_program' =>  $study_program,
+        ], true);
 
         // Make account for college student
         $admin_user = Administrator::create([
@@ -49,15 +62,19 @@ class BorrowRoomApiController extends Controller
         ]);
 
         // Make college student details to user_details table
-        $college_student_detail = UserDetail::create([
-            'user_id' =>        $admin_user->id,
-            'data' =>           json_encode([
-                'full_name' =>      $full_name,
-                'nim'       =>      $nim,
-                'study_program' =>  $study_program,
-            ])
+        $college_student_detail = AdminUserDetail::create([
+            'admin_user_id' =>  $admin_user->id,
+            'data' =>           $data
         ]);
 
-        return back()->withSuccess(true);
+        $borrow_room = BorrowRoom::create([
+            'borrower_id' =>        $admin_user->id,
+            'room_id' =>            $request->room,
+            'borrow_at' =>          $request->borrow_at,
+            'until_at' =>           $request->until_at,
+            'lecturer_id' =>        $request->lecturer,
+        ]);
+
+        return redirect(route('home'))->withSuccess(true);
     }
 }

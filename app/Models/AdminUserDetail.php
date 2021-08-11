@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
+use Encore\Admin\Auth\Database\Administrator;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserDetail extends Model
+class AdminUserDetail extends Model
 {
     use HasFactory;
 
@@ -14,7 +15,7 @@ class UserDetail extends Model
      *
      * @var string
      */
-    protected $tables = 'user_details';
+    protected $tables = 'admin_user_details';
 
     /**
      * The attributes that are mass assignable.
@@ -22,7 +23,7 @@ class UserDetail extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id',
+        'admin_user_id',
         'data',
     ];
 
@@ -31,8 +32,8 @@ class UserDetail extends Model
      *
      * @return void
      */
-    public function user()
+    public function admin_user()
     {
-        $this->belongsTo(User::class);
+        $this->belongsTo(Administrator::class);
     }
 }

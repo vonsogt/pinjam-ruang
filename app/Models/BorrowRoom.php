@@ -13,6 +13,35 @@ class BorrowRoom extends Model
     protected $table = 'borrow_rooms';
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'borrower_id',
+        'room_id',
+        'borrow_at',
+        'until_at',
+        'lecturer_id',
+        // 'lecturer_approval_status',
+        // 'admin_id',
+        // 'admin_approval_status',
+        // 'processed_at',
+        // 'returned_at',
+        // 'notes',
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'borrow_at' =>  'date',
+        'until_at' =>   'date',
+    ];
+
+    /**
      * Relationship
      */
     public function room()
