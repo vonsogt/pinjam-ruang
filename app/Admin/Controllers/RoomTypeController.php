@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Models\RoomType;
 use App\Http\Controllers\Controller;
+use Encore\Admin\Auth\Permission;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -89,6 +90,27 @@ class RoomTypeController extends Controller
         $grid->created_at(trans('admin.created_at'));
         $grid->updated_at(trans('admin.updated_at'));
 
+        // Role & Permission
+        if (!\Admin::user()->can('create.room_types'))
+            $grid->disableCreateButton();
+
+        $grid->actions(function ($actions) {
+
+            // The roles with this permission will not able to see the view button in actions column.
+            if (!\Admin::user()->can('edit.room_types')) {
+                $actions->disableEdit();
+            }
+            // The roles with this permission will not able to see the show button in actions column.
+            if (!\Admin::user()->can('list.room_types')) {
+                $actions->disableView();
+            }
+            // The roles with this permission will not able to see the delete button in actions column.
+            if (!\Admin::user()->can('delete.room_types')) {
+                $actions->disableDelete();
+            }
+        });
+
+
         return $grid;
     }
 
@@ -109,6 +131,22 @@ class RoomTypeController extends Controller
 
         $show->created_at(trans('admin.created_at'));
         $show->updated_at(trans('admin.updated_at'));
+
+        // Role & Permission
+        $show->panel()
+            ->tools(function ($tools) {
+                // The roles with this permission will not able to see the view button in actions column.
+                if (!\Admin::user()->can('edit.room_types'))
+                    $tools->disableEdit();
+
+                // The roles with this permission will not able to see the show button in actions column.
+                if (!\Admin::user()->can('list.room_types'))
+                    $tools->disableList();
+
+                // The roles with this permission will not able to see the delete button in actions column.
+                if (!\Admin::user()->can('delete.room_types'))
+                    $tools->disableDelete();
+            });
 
         return $show;
     }

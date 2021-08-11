@@ -120,6 +120,26 @@ class BorrowRoomController extends Controller
                 . $val[1];
         });
 
+        // Role & Permission
+        if (!\Admin::user()->can('create.borrow_rooms'))
+            $grid->disableCreateButton();
+
+        $grid->actions(function ($actions) {
+
+            // The roles with this permission will not able to see the view button in actions column.
+            if (!\Admin::user()->can('edit.borrow_rooms')) {
+                $actions->disableEdit();
+            }
+            // The roles with this permission will not able to see the show button in actions column.
+            if (!\Admin::user()->can('list.borrow_rooms')) {
+                $actions->disableView();
+            }
+            // The roles with this permission will not able to see the delete button in actions column.
+            if (!\Admin::user()->can('delete.borrow_rooms')) {
+                $actions->disableDelete();
+            }
+        });
+
         return $grid;
     }
 
@@ -147,6 +167,22 @@ class BorrowRoomController extends Controller
         $show->field('notes', 'Catatan');
         $show->created_at(trans('admin.created_at'));
         $show->updated_at(trans('admin.updated_at'));
+
+        // Role & Permission
+        $show->panel()
+            ->tools(function ($tools) {
+                // The roles with this permission will not able to see the view button in actions column.
+                if (!\Admin::user()->can('edit.borrow_rooms'))
+                    $tools->disableEdit();
+
+                // The roles with this permission will not able to see the show button in actions column.
+                if (!\Admin::user()->can('list.borrow_rooms'))
+                    $tools->disableList();
+
+                // The roles with this permission will not able to see the delete button in actions column.
+                if (!\Admin::user()->can('delete.borrow_rooms'))
+                    $tools->disableDelete();
+            });
 
         return $show;
     }

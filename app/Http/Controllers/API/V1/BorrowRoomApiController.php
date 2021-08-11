@@ -61,12 +61,19 @@ class BorrowRoomApiController extends Controller
             'password' =>   Hash::make($request->nim)
         ]);
 
+        // Add role college student
+        $admin_role_user = \DB::table('admin_role_users')->insert([
+            'role_id' =>    4,
+            'user_id' =>    $admin_user->id,
+        ]);
+
         // Make college student details to user_details table
         $college_student_detail = AdminUserDetail::create([
             'admin_user_id' =>  $admin_user->id,
             'data' =>           $data
         ]);
 
+        // Add borrow rooms
         $borrow_room = BorrowRoom::create([
             'borrower_id' =>        $admin_user->id,
             'room_id' =>            $request->room,

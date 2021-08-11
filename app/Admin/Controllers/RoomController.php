@@ -97,6 +97,26 @@ class RoomController extends Controller
                 3 => 'danger',
             ]);
 
+        // Role & Permission
+        if (!\Admin::user()->can('create.rooms'))
+            $grid->disableCreateButton();
+
+        $grid->actions(function ($actions) {
+
+            // The roles with this permission will not able to see the view button in actions column.
+            if (!\Admin::user()->can('edit.rooms')) {
+                $actions->disableEdit();
+            }
+            // The roles with this permission will not able to see the show button in actions column.
+            if (!\Admin::user()->can('list.rooms')) {
+                $actions->disableView();
+            }
+            // The roles with this permission will not able to see the delete button in actions column.
+            if (!\Admin::user()->can('delete.rooms')) {
+                $actions->disableDelete();
+            }
+        });
+
         return $grid;
     }
 
@@ -118,6 +138,22 @@ class RoomController extends Controller
         $show->field('notes', 'Catatan');
         $show->created_at(trans('admin.created_at'));
         $show->updated_at(trans('admin.updated_at'));
+
+        // Role & Permission
+        $show->panel()
+            ->tools(function ($tools) {
+                // The roles with this permission will not able to see the view button in actions column.
+                if (!\Admin::user()->can('edit.rooms'))
+                    $tools->disableEdit();
+
+                // The roles with this permission will not able to see the show button in actions column.
+                if (!\Admin::user()->can('list.rooms'))
+                    $tools->disableList();
+
+                // The roles with this permission will not able to see the delete button in actions column.
+                if (!\Admin::user()->can('delete.rooms'))
+                    $tools->disableDelete();
+            });
 
         return $show;
     }
