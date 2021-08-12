@@ -31,10 +31,17 @@
                             ) {
                                 $room_status = 1; // Set status room to Booked
                                 $borrower_first_name = ucfirst(strtolower(explode(' ', Encore\Admin\Auth\Database\Administrator::find($borrow_room->borrower_id)->name)[0]));
-                                $borrow_at =    Carbon\Carbon::make($borrow_room->borrow_at)->format('d M Y');
-                                $until_at =     Carbon\Carbon::make($borrow_room->until_at)->format('d M Y');
+                                // $borrow_at =    Carbon\Carbon::make($borrow_room->borrow_at)->format('d M Y');
+                                // $until_at =     Carbon\Carbon::make($borrow_room->until_at)->format('d M Y');
 
-                                $borrower_status[] = $borrower_first_name . ' - ' . $borrow_at . ' s.d ' . $until_at;
+                                $borrow_at = Carbon\Carbon::parse($borrow_room->borrow_at);
+                                $until_at = Carbon\Carbon::parse($borrow_room->until_at);
+                                $count_days = $borrow_at->diffInDays($until_at) + 1;
+
+                                if ($count_days == 1)
+                                    $borrower_status[] = $borrower_first_name . ' - ' . $borrow_at->format('d M Y');
+                                else
+                                    $borrower_status[] = $borrower_first_name . ' - ' . $borrow_at->format('d M Y') . ' s.d ' . $until_at->format('d M Y');
                             }
                         }
                     }

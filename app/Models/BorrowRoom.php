@@ -24,12 +24,12 @@ class BorrowRoom extends Model
         'borrow_at',
         'until_at',
         'lecturer_id',
-        // 'lecturer_approval_status',
-        // 'admin_id',
-        // 'admin_approval_status',
-        // 'processed_at',
-        // 'returned_at',
-        // 'notes',
+        'lecturer_approval_status',
+        'admin_id',
+        'admin_approval_status',
+        'processed_at',
+        'returned_at',
+        'notes',
     ];
 
     /**
@@ -71,7 +71,7 @@ class BorrowRoom extends Model
      */
     public function scopeIsNotFinished($query)
     {
-        return $query->where('returned_at', '=', null);
+        return $query->where('lecturer_approval_status', '!=', 2)->where('returned_at', '=', null);
     }
 
     public function scopeIsLecturerApproved($query)

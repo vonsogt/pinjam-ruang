@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API\V1;
 use App\Http\Controllers\Controller;
 use App\Models\BorrowRoom;
 use App\Models\AdminUserDetail;
+use App\Models\Room;
+use Carbon\Carbon;
 use Encore\Admin\Auth\Database\Administrator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -77,6 +79,22 @@ class BorrowRoomApiController extends Controller
                 'data' =>           $data
             ]);
         }
+
+        // Check if that room already booked at that date range
+        $room = Room::find($request->room);
+        $borrow_at = $request->borrow_at;
+        $already_booked = false;
+        foreach ($room->borrow_rooms as $borrow_room) {
+            $from = Carbon::make($borrow_room->borrow_at);
+            $to =   Carbon::make($borrow_room->until_at);
+
+            $already_booked = Carbon::make($borrow_at)->between($from, $to);
+        }
+
+        if ($already_booked)
+            return redirect(route('home'))->withInput($request->input())->withErrors([
+                'Maaf ruangan tersebut sudah dibooking pada tanggal tersebut, silahkan pilih tanggal lain.'
+            ]);
 
         // Check if college student already have active borrow_rooms and didn't return the key
         $borrow_rooms = BorrowRoom::where('borrower_id', $admin_user->id);

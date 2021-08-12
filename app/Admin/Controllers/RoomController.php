@@ -88,14 +88,36 @@ class RoomController extends Controller
         $grid->column('name', 'Nama');
         $grid->column('room_type.name', 'Tipe Ruangan');
         $grid->column('max_people', 'Maks Orang');
-        $grid->column('status', 'Status')
-            ->using(RoomStatus::asSelectArray())
-            ->label([
-                0 => 'success',
-                1 => 'warning',
-                2 => 'info',
-                3 => 'danger',
-            ]);
+        $grid->column('room_status', 'Status Ruangan')->display(function ($value) {
+            $val = ['info', 'Kosong'];
+            foreach ($this->borrow_rooms as $borrow_room) {
+                $lecturer_approval_status = $borrow_room->lecturer_approval_status;
+                $admin_approval_status =    $borrow_room->admin_approval_status;
+                $returned_at =              $borrow_room->returned_at ?? null;
+                $processed_at =             $borrow_room->processed_at ?? null;
+
+                if ($lecturer_approval_status == 1) {
+                    if ($admin_approval_status == 1) {
+                        if ($returned_at != null)
+                            $val = ['success', 'Peminjaman selesai'];
+                        else if ($processed_at != null)
+                            $val = ['success', 'Ruangan sedang digunakan'];
+                        else
+                            $val = ['success', 'Sudah disetujui TU'];
+                    } else if ($admin_approval_status == 0)
+                        $val = ['info', 'Menunggu persetujuan TU'];
+                    else
+                        $val = ['danger', 'Ditolak TU'];
+                } else if ($lecturer_approval_status == 0) {
+                    $val = ['info', 'Menunggu persetujuan Dosen'];
+                } else {
+                    $val = ['danger', 'Ditolak Dosen'];
+                }
+            }
+            // return 'wkwk';
+            return '<span class="label-' . $val[0] . '" style="width: 8px;height: 8px;padding: 0;border-radius: 50%;display: inline-block;"></span>&nbsp;&nbsp;'
+                . $val[1];
+        });
 
         // Role & Permission
         if (!\Admin::user()->can('create.rooms'))

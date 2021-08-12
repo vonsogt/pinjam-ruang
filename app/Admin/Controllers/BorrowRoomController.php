@@ -113,11 +113,14 @@ class BorrowRoomController extends Controller
             $lecturer_approval_status = $this->lecturer_approval_status;
             $admin_approval_status =    $this->admin_approval_status;
             $returned_at =              $this->returned_at ?? null;
+            $processed_at =             $this->processed_at ?? null;
 
             if ($lecturer_approval_status == 1) {
                 if ($admin_approval_status == 1) {
                     if ($returned_at != null)
                         $val = ['success', 'Peminjaman selesai'];
+                    else if ($processed_at != null)
+                        $val = ['success', 'Ruangan sedang digunakan'];
                     else
                         $val = ['success', 'Sudah disetujui TU'];
                 } else if ($admin_approval_status == 0)
@@ -275,15 +278,25 @@ class BorrowRoomController extends Controller
             });
 
             // Check if lecturer approved the borrow_rooms
-            // if ($form->model()->isLecturerApproved()) {
-            $form->hidden('admin_id')->value($admin_user->id);
-            $form->radio('admin_approval_status', 'Status Persetujuan Tata Usaha')->options(ApprovalStatus::asSelectArray());
+            $form->hidden('admin_id');
+            $form->radio('admin_approval_status', 'Status Persetujuan Tata Usaha')
+                ->options(ApprovalStatus::asSelectArray())
+                ->with(function ($value, Field $thisField) {
+                    $lecturer_approval_status = $this->lecturer_approval_status;
+                    if (
+                        $lecturer_approval_status === ApprovalStatus::Pending
+                        || $lecturer_approval_status === ApprovalStatus::Ditolak
+                    )
+                        $thisField->attribute('disabled', true);
+
+                    return $value;
+                });
             $form->datetime('processed_at', 'Kunci Diambil Pada')->format('YYYY-MM-DD HH:mm')->with(function ($value, Field $thisField) {
                 $admin_approval_status = $this->admin_approval_status;
                 if (
                     $admin_approval_status == null
-                    || $admin_approval_status === ApprovalStatus::Pending()
-                    || $admin_approval_status === ApprovalStatus::Ditolak()
+                    || $admin_approval_status === ApprovalStatus::Pending
+                    || $admin_approval_status === ApprovalStatus::Ditolak
                 )
                     $thisField->attribute('readonly', 'readonly');
             });
@@ -318,6 +331,11 @@ class BorrowRoomController extends Controller
                 $form->display('updated_at', trans('admin.updated_at'));
             }
         }
+
+        $form->saving(function (Form $form) {
+            // if ($form->admin_id)
+            $form->admin_id = \Admin::user()->id;
+        });
 
         return $form;
     }
