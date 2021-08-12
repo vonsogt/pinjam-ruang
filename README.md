@@ -35,7 +35,10 @@ Pinjam Ruang merupakan sebuah aplikasi berbasis website yang bertujuan untuk mem
 
 ## Gambar
 
+Frontend:
 ![image](https://user-images.githubusercontent.com/35516476/129226360-d8185ae7-9163-4d04-a6d8-44df18e28704.png)
+Backend:
+![image](https://user-images.githubusercontent.com/35516476/129230321-60cd0f5c-d4ce-450b-a96a-e16411b358df.png)
 
 ## Fitur
 
@@ -105,7 +108,7 @@ Sebelum menggunakan projek ini, diperlukanya:
    php artisan serve
    ```
 8. Lalu buka browser `127.0.0.1:8000` untuk menggunakan aplikasi
-9. Selamat meminjam ruangan dengan mudah :)
+9. Selamat meminjam ruangan dengan mudah dan cepat 😊
 
 
 ## Petunjuk
