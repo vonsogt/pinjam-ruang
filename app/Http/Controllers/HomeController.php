@@ -21,6 +21,9 @@ class HomeController extends Controller
     public function rooms()
     {
         $data['rooms'] = Room::with('room_type')->get();
+        $data['lecturers'] = Administrator::whereHas('roles', function ($query) {
+            $query->where('slug', 'dosen');
+        })->get();
 
         return view('pages.rooms', compact('data'));
     }

@@ -53,11 +53,11 @@ class BorrowRoomApiController extends Controller
         ]);
 
         if ($validator->fails())
-            return back()->withInput($request->input())->withErrors($validator);
+            return redirect(route('home'))->withInput($request->input())->withErrors($validator);
 
         // Check if admin_user (college student) is exist
         $admin_user = Administrator::where('username', $nim)->first();
-        if (!$admin_user->exists()) {
+        if ($admin_user === null) {
             // Make account for college student
             $admin_user = Administrator::create([
                 'username' =>   $nim,
@@ -87,7 +87,7 @@ class BorrowRoomApiController extends Controller
             $borrow_rooms_is_not_finished = $borrow_rooms->isNotFinished()->get()->isEmpty();
 
             if (!$borrow_rooms_is_not_finished)
-                return back()->withInput($request->input())->withErrors([
+                return redirect(route('home'))->withInput($request->input())->withErrors([
                     'Mahasiswa dengan NIM ' . $admin_user->username . ' masih memiliki peminjaman yang belum selesai.',
                     'login_for_more_info', //
                 ]);
