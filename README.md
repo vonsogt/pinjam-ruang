@@ -16,6 +16,7 @@
 
 * [Tentang Pinjam Ruang](#tentang-pinjam-ruang)
   * [Dibuat Menggunakan](#dibuat-menggunakan)
+* [Demo](#demo)
 * [Gambar](#gambar)
 * [Fitur](#fitur)
 * [Mulai](#mulai)
@@ -32,6 +33,12 @@ Pinjam Ruang merupakan sebuah aplikasi berbasis website yang bertujuan untuk mem
 
 ### Dibuat Menggunakan
 * [Laravel](https://laravel.com/)
+
+## Demo
+
+Tautan: http://pinjam-ruang.vonso.online/
+
+Akun: demo/demo123
 
 ## Gambar
 
