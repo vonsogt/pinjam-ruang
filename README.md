@@ -1,62 +1,126 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
-
 <p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <h1 align="center">Pinjam Ruang</h1>
+  
+  <p align="center">
+    Pinjam Ruang Mudah dan Cepat!
+    <br />
+    <a href="http://pinjam-ruang.vonso.online/">Lihat Demo</a>
+    ·
+    <a href="https://github.com/vonsogt/pinjam-ruang/issues">Laporkan Kesalahan</a>
+    ·
+    <a href="https://github.com/vonsogt/pinjam-ruang/issues">Ajukan Fitur Baru</a>
+  </p>
 </p>
 
-## About Laravel
+## Daftar Isi
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+* [Tentang Pinjam Ruang](#tentang-pinjam-ruang)
+  * [Dibuat Menggunakan](#dibuat-menggunakan)
+* [Gambar](#gambar)
+* [Fitur](#fitur)
+* [Mulai](#mulai)
+  * [Prasyarat](#prasyarat)
+  * [Instalasi](#instalasi)
+* [Petunjuk](#petunjuk)
+* [Berkontribusi](#berkontribusi)
+* [Lisensi](#lisensi)
+* [Kontak](#kontak)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Tentang pinjam-ruang
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Pinjam Ruang merupakan sebuah aplikasi berbasis website yang bertujuan untuk mempermudah peminjaman ruangan pada suatu universitas/kampus.
 
-## Learning Laravel
+### Dibuat Menggunakan
+* [Laravel](https://laravel.com/)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Gambar
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+![image](https://user-images.githubusercontent.com/35516476/129226360-d8185ae7-9163-4d04-a6d8-44df18e28704.png)
 
-## Laravel Sponsors
+## Fitur
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+BACKEND
+- [x] Autentikasi
+- [x] Aktor & Izin akses
+- [x] Mahasiswa dapat melihat semua aktivitas peminjaman atas nama sendiri
+- [x] Disisi backend mengecek user apakah username dan password masih sama, jika iya akan mengeluarkan info untuk "Ganti Password"
 
-### Premium Partners
+FRONTEND
+- [x] Halaman utama website menampilkan flowchart tata cara peminjaman
+- [X] Halaman utama memiliki menu navigasi menampikan ruangan yang sudah dibooking beserta detail lainnya (nama, tgl booking)
+- [x] Mahasiswa dapat meminjam ruangan dengan mengisi
+      - Nama Lengkap
+	  - Tanggal Mulai Pinjam
+	  - Tanggal Selesai Pinjam
+	  - Ruangan yang akan dipinjam
+	  - Dosen yang akan diminta persetujuan
+	  - NIM
+	  - Prodi
+- [x] Mahasiswa tidak dapat meminjam ruangan yang sudah di booking pada tanggal ruangan yang sudah dibooking
+      - [x] Mahasiswa tidak dapat meminjam lebih dari 1 kali, jika peminjaman sebelumnya belum terselesaikan
+- [x] Menampilkan detail peminjam, tanggal mulai dan tanggal selesai disetiap list ruangan
+- [x] TU Jurusan IF bisa melihat semua status ruangan baik yang kosong maupun yang sudah dibooking. Kemudian TU juga bisa menyetujui ruangan yang sudah disetujui terlebih dahulu oleh Dosen. Jadi TU tidak akan menyetujui apabila belum ada persetujuan dari Dosen. Dan TU bisa mengubah status ruangan.
+- [x] Dosen bisa melihat ruangan yang sudah direquest oleh mahasiswanya dan menyetujui melalui menu di aplikasi.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
 
-## Contributing
+## Mulai
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Sebelum melakukan instalasi proyek `pinjam-ruang` ada baiknya perhatikan hal-hal berikut ini:
 
-## Code of Conduct
+### Prasyarat
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Sebelum menggunakan projek ini, diperlukanya:
+* [composer](https://getcomposer.org/)
+* [php](https://www.php.net/downloads.php)
+* [git](https://git-scm.com/)
 
-## Security Vulnerabilities
+### Instalasi
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+1. Unduh/Clone proyek ini
+   ```git
+   git clone https://github.com/vonsogt/pinjam-ruang.git
+   ```
+2. Lalu pindah ke direktori `pinjam-ruang`
+   ```sh
+   cd pinjam-ruang
+   ```
+3. Install komponen yang diperlukan menggunakan composer
+   ```sh
+   composer install
+   ```
+4. Copy file `.env.example` menjadi `.env`
+   ```sh
+   cp .env.example .env
+   ```
+5. Lalu generate `APP_KEY`
+   ```sh
+   php artisan key:generate
+   ```
+6. Lalu lakukan migrasi database dan query dengan cara
+   ```sh
+   php artisan migrate:fresh --seed
+   ```
+7. Setelah berhasil, jalankan aplikasi
+   ```sh
+   php artisan serve
+   ```
+8. Lalu buka browser `127.0.0.1:8000` untuk menggunakan aplikasi
+9. Selamat meminjam ruangan dengan mudah :)
 
-## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Petunjuk
+
+Lihat [open issues](https://github.com/vonsogt/pinjam-ruang/issues) untuk daftar fitur yang diusulkan (dan masalah yang diketahui).
+
+## Berkontribusi
+
+Kontribusi adalah yang membuat komunitas open source menjadi tempat yang luar biasa untuk belajar, menginspirasi, dan berkreasi. Setiap kontribusi yang Anda berikan ** sangat dihargai **.
+
+## Lisensi
+
+`pinjam-ruang` berlisensi di bawah [MIT license](https://opensource.org/licenses/MIT).
+
+
+## Kontak
+
+Vonso - vonsogt18081999@gmail.com
