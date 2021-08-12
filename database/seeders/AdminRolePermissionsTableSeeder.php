@@ -197,6 +197,13 @@ class AdminRolePermissionsTableSeeder extends Seeder
                 'created_at' => NULL,
                 'updated_at' => NULL,
             ),
+            26 =>
+            array(
+                'role_id' => 4,
+                'permission_id' => 16,
+                'created_at' => NULL,
+                'updated_at' => NULL,
+            ),
         );
 
         // Checking if the table already have a query

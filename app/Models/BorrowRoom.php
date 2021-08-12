@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\ApprovalStatus;
 use Encore\Admin\Auth\Database\Administrator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -71,6 +72,11 @@ class BorrowRoom extends Model
     public function scopeIsNotFinished($query)
     {
         return $query->where('returned_at', '=', null);
+    }
+
+    public function scopeIsLecturerApproved($query)
+    {
+        return $query->where('lecturer_approval_status', '=', ApprovalStatus::Disetujui());
     }
 
     /**

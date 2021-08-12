@@ -13,7 +13,7 @@
             style="background-image: linear-gradient(to bottom, rgba(255,255,255,0.6) 0%,rgba(255,255,255,0.9) 100%), url(https://placeimg.com/1000/480/nature)">
             <div class="container">
                 <h1 class="display-4">{{ $data['greetings'] }}, {{ $data['admin_user_first_name'] }}!</h1>
-                <p class="lead">Pinjam ruangan mudah dan cepat!</p>
+                <p class="lead">Pinjam ruangan mudah dan cepat! Klik <a href="{{ route('admin.borrow-rooms.index') }}">disini</a> untuk lihat daftar pinjam ruang.</p>
                 <hr class="my-4">
                 @if ($data['is_new_admin_user'])
                     <p>
