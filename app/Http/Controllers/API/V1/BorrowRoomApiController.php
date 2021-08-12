@@ -14,6 +14,16 @@ class BorrowRoomApiController extends Controller
 {
     public function storeBorrowRoomWithCollegeStudent(Request $request)
     {
+        // Set request to variable
+        $full_name =        \Str::upper($request->full_name);
+        $nim =              $request->nim;
+        $study_program =    $request->study_program;
+        $data =             json_encode([
+            'full_name' =>      $full_name,
+            'nim'       =>      $nim,
+            'study_program' =>  $study_program,
+        ], true);
+
         $validator = Validator::make($request->all(), [
             'full_name' =>      'required|string',
             'borrow_at' =>      'required|date|after_or_equal:' . date('Y-m-d'),
@@ -45,33 +55,43 @@ class BorrowRoomApiController extends Controller
         if ($validator->fails())
             return back()->withInput($request->input())->withErrors($validator);
 
-        $full_name =        \Str::upper($request->full_name);
-        $nim =              $request->nim;
-        $study_program =    $request->study_program;
-        $data =             json_encode([
-            'full_name' =>      $full_name,
-            'nim'       =>      $nim,
-            'study_program' =>  $study_program,
-        ], true);
+        // Check if admin_user (college student) is exist
+        $admin_user = Administrator::where('username', $nim)->first();
+        if (!$admin_user->exists()) {
+            // Make account for college student
+            $admin_user = Administrator::create([
+                'username' =>   $nim,
+                'name' =>       $full_name,
+                'password' =>   Hash::make($request->nim)
+            ]);
 
-        // Make account for college student
-        $admin_user = Administrator::create([
-            'username' =>   $nim,
-            'name' =>       $full_name,
-            'password' =>   Hash::make($request->nim)
-        ]);
+            // Add role college student
+            $admin_role_user = \DB::table('admin_role_users')->insert([
+                'role_id' =>    4,
+                'user_id' =>    $admin_user->id,
+            ]);
 
-        // Add role college student
-        $admin_role_user = \DB::table('admin_role_users')->insert([
-            'role_id' =>    4,
-            'user_id' =>    $admin_user->id,
-        ]);
+            // Make college student details to user_details table
+            $college_student_detail = AdminUserDetail::create([
+                'admin_user_id' =>  $admin_user->id,
+                'data' =>           $data
+            ]);
+        }
 
-        // Make college student details to user_details table
-        $college_student_detail = AdminUserDetail::create([
-            'admin_user_id' =>  $admin_user->id,
-            'data' =>           $data
-        ]);
+        // Check if college student already have active borrow_rooms and didn't return the key
+        $borrow_rooms = BorrowRoom::where('borrower_id', $admin_user->id);
+        $borrow_rooms_is_empty = $borrow_rooms->get()->isEmpty();
+
+        // If any of borrow_rooms query
+        if (!$borrow_rooms_is_empty) {
+            $borrow_rooms_is_not_finished = $borrow_rooms->isNotFinished()->get()->isEmpty();
+
+            if (!$borrow_rooms_is_not_finished)
+                return back()->withInput($request->input())->withErrors([
+                    'Mahasiswa dengan NIM ' . $admin_user->username . ' masih memiliki peminjaman yang belum selesai.',
+                    'login_for_more_info', //
+                ]);
+        }
 
         // Add borrow rooms
         $borrow_room = BorrowRoom::create([
@@ -82,6 +102,7 @@ class BorrowRoomApiController extends Controller
             'lecturer_id' =>        $request->lecturer,
         ]);
 
+        // Return success create borrow_rooms
         return redirect(route('home'))->withSuccess(true);
     }
 }

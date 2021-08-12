@@ -19,4 +19,9 @@ class Room extends Model
     {
         return $this->belongsTo(RoomType::class);
     }
+
+    public function borrow_rooms()
+    {
+        return $this->hasMany(BorrowRoom::class);
+    }
 }

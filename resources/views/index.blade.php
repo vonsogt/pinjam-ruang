@@ -21,10 +21,15 @@
 						<form method="POST" action="{{ route('api.v1.borrow-room-with-college-student', []) }}" class="appointment-form">
                             @csrf
 							<h3 class="mb-3">Pinjam ruang disini</h3>
+                            {{-- Show any errors --}}
                             @if ($errors->isNotEmpty())
                                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                     @foreach ($errors->all() as $message)
-                                        {{ $message }}<br>
+                                        @if ($message == 'login_for_more_info')
+                                            <a href="{{ route('admin.login') }}">Masuk</a> untuk meilihat aktivitas peminjaman.
+                                        @else
+                                            {{ $message }}<br>
+                                        @endif
                                     @endforeach
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
@@ -192,86 +197,34 @@
 				<div class="row no-gutters justify-content-center pb-5 mb-3">
           <div class="col-md-7 heading-section text-center ftco-animate">
             <h2>Ruangan</h2>
+            <p class="justify-content-center"><a href="{{ route('rooms') }}">Lihat lebih banyak ruangan disini.</a></p>
           </div>
         </div>
 				<div class="row no-gutters">
-    			<div class="col-lg-6">
-    				<div class="room-wrap d-md-flex">
-    					<a href="#" class="img" style="background-image: url(vendor/technext/vacation-rental/images/room-1.jpg);"></a>
-    					<div class="half left-arrow d-flex align-items-center">
-    						<div class="text p-4 p-xl-5 text-center">
-    							<p class="star mb-0"><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span></p>
-    							<!-- <p class="mb-0"><span class="price mr-1">$120.00</span> <span class="per">per night</span></p> -->
-	    						<h3 class="mb-3"><a href="rooms.html">Suite Room</a></h3>
-	    						<ul class="list-accomodation">
-	    							<li><span>Max:</span> 3 Persons</li>
-	    							<li><span>Size:</span> 45 m2</li>
-	    							<li><span>View:</span> Sea View</li>
-	    							<li><span>Bed:</span> 1</li>
-	    						</ul>
-	    						<p class="pt-1"><a href="room-single.html" class="btn-custom px-3 py-2">View Room Details <span class="icon-long-arrow-right"></span></a></p>
-    						</div>
-    					</div>
-    				</div>
-    			</div>
-    			<div class="col-lg-6">
-    				<div class="room-wrap d-md-flex">
-    					<a href="#" class="img" style="background-image: url(vendor/technext/vacation-rental/images/room-2.jpg);"></a>
-    					<div class="half left-arrow d-flex align-items-center">
-    						<div class="text p-4 p-xl-5 text-center">
-    							<p class="star mb-0"><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span></p>
-    							<!-- <p class="mb-0"><span class="price mr-1">$120.00</span> <span class="per">per night</span></p> -->
-	    						<h3 class="mb-3"><a href="rooms.html">Standard Room</a></h3>
-									<ul class="list-accomodation">
-	    							<li><span>Max:</span> 3 Persons</li>
-	    							<li><span>Size:</span> 45 m2</li>
-	    							<li><span>View:</span> Sea View</li>
-	    							<li><span>Bed:</span> 1</li>
-	    						</ul>
-	    						<p class="pt-1"><a href="room-single.html" class="btn-custom px-3 py-2">View Room Details <span class="icon-long-arrow-right"></span></a></p>
-    						</div>
-    					</div>
-    				</div>
-    			</div>
-
-    			<div class="col-lg-6">
-    				<div class="room-wrap d-md-flex">
-    					<a href="#" class="img order-md-last" style="background-image: url(vendor/technext/vacation-rental/images/room-3.jpg);"></a>
-    					<div class="half right-arrow d-flex align-items-center">
-    						<div class="text p-4 p-xl-5 text-center">
-    							<p class="star mb-0"><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span></p>
-    							<!-- <p class="mb-0"><span class="price mr-1">$120.00</span> <span class="per">per night</span></p> -->
-	    						<h3 class="mb-3"><a href="rooms.html">Family Room</a></h3>
-									<ul class="list-accomodation">
-	    							<li><span>Max:</span> 3 Persons</li>
-	    							<li><span>Size:</span> 45 m2</li>
-	    							<li><span>View:</span> Sea View</li>
-	    							<li><span>Bed:</span> 1</li>
-	    						</ul>
-	    						<p class="pt-1"><a href="room-single.html" class="btn-custom px-3 py-2">View Room Details <span class="icon-long-arrow-right"></span></a></p>
-    						</div>
-    					</div>
-    				</div>
-    			</div>
-    			<div class="col-lg-6">
-    				<div class="room-wrap d-md-flex">
-    					<a href="#" class="img order-md-last" style="background-image: url(vendor/technext/vacation-rental/images/room-4.jpg);"></a>
-    					<div class="half right-arrow d-flex align-items-center">
-    						<div class="text p-4 p-xl-5 text-center">
-    							<p class="star mb-0"><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span></p>
-    							<!-- <p class="mb-0"><span class="price mr-1">$120.00</span> <span class="per">per night</span></p> -->
-	    						<h3 class="mb-3"><a href="rooms.html">Deluxe Room</a></h3>
-									<ul class="list-accomodation">
-	    							<li><span>Max:</span> 3 Persons</li>
-	    							<li><span>Size:</span> 45 m2</li>
-	    							<li><span>View:</span> Sea View</li>
-	    							<li><span>Bed:</span> 1</li>
-	    						</ul>
-	    						<p class="pt-1"><a href="room-single.html" class="btn-custom px-3 py-2">View Room Details <span class="icon-long-arrow-right"></span></a></p>
-    						</div>
-    					</div>
-    				</div>
-    			</div>
+                @for ($i = 0; $i < 4; $i++)
+                @php
+                    // Get Random rooms
+                    $room = $data['rooms'][rand(0, $data['rooms']->count() -1)];
+                @endphp
+                <div class="col-lg-6">
+                    <div class="room-wrap d-md-flex">
+                        <a href="#" class="img" style="background-image: url({{ asset('vendor/technext/vacation-rental/images/room-'. rand(1, 6) . '.jpg') }});"></a>
+                        <div class="half left-arrow d-flex align-items-center">
+                            <div class="text p-4 p-xl-5 text-center">
+                                <p class="star mb-0"><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span></p>
+                                <p class="mb-0">{{ $room->room_type->name }}</p>
+                                <h3 class="mb-3"><a href="rooms.html">{{ $room->name }}</a></h3>
+                                <ul class="list-accomodation">
+                                    <li><span>Maks:</span> {{ $room->max_people }} Orang</li>
+                                    <li><span>Size:</span> 45 m2</li>
+                                    <li><span>Status:</span> {{ App\Enums\RoomStatus::getDescription($room->status) }}</li>
+                                </ul>
+                                <p class="pt-1"><a href="room-single.html" class="btn-custom px-3 py-2">Pinjam Ruang Ini <span class="icon-long-arrow-right"></span></a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endfor
     		</div>
 			</div>
 		</section>

@@ -65,6 +65,15 @@ class BorrowRoom extends Model
     }
 
     /**
+     * Scope
+     *
+     */
+    public function scopeIsNotFinished($query)
+    {
+        return $query->where('returned_at', '=', null);
+    }
+
+    /**
      * Accessor
      */
 
