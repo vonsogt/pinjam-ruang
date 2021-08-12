@@ -52,15 +52,15 @@ FRONTEND
 - [x] Halaman utama website menampilkan flowchart tata cara peminjaman
 - [X] Halaman utama memiliki menu navigasi menampikan ruangan yang sudah dibooking beserta detail lainnya (nama, tgl booking)
 - [x] Mahasiswa dapat meminjam ruangan dengan mengisi
-      - Nama Lengkap
-	  - Tanggal Mulai Pinjam
-	  - Tanggal Selesai Pinjam
-	  - Ruangan yang akan dipinjam
-	  - Dosen yang akan diminta persetujuan
-	  - NIM
-	  - Prodi
+  - Nama Lengkap
+  - Tanggal Mulai Pinjam
+  - Tanggal Selesai Pinjam
+  - Ruangan yang akan dipinjam
+  - Dosen yang akan diminta persetujuan
+  - NIM
+  - Prodi
 - [x] Mahasiswa tidak dapat meminjam ruangan yang sudah di booking pada tanggal ruangan yang sudah dibooking
-      - [x] Mahasiswa tidak dapat meminjam lebih dari 1 kali, jika peminjaman sebelumnya belum terselesaikan
+  - Mahasiswa tidak dapat meminjam lebih dari 1 kali, jika peminjaman sebelumnya belum terselesaikan
 - [x] Menampilkan detail peminjam, tanggal mulai dan tanggal selesai disetiap list ruangan
 - [x] TU Jurusan IF bisa melihat semua status ruangan baik yang kosong maupun yang sudah dibooking. Kemudian TU juga bisa menyetujui ruangan yang sudah disetujui terlebih dahulu oleh Dosen. Jadi TU tidak akan menyetujui apabila belum ada persetujuan dari Dosen. Dan TU bisa mengubah status ruangan.
 - [x] Dosen bisa melihat ruangan yang sudah direquest oleh mahasiswanya dan menyetujui melalui menu di aplikasi.
@@ -99,7 +99,7 @@ Sebelum menggunakan projek ini, diperlukanya:
    ```sh
    php artisan key:generate
    ```
-6. Lalu lakukan migrasi database dan query dengan cara
+6. Lalu lakukan migrasi database dan query (isi database dari Polibatam)
    ```sh
    php artisan migrate:fresh --seed
    ```
