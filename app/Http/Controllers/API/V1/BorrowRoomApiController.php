@@ -28,7 +28,7 @@ class BorrowRoomApiController extends Controller
 
         $validator = Validator::make($request->all(), [
             'full_name' =>      'required|string',
-            'borrow_at' =>      'required|date|after_or_equal:' . date('Y-m-d'),
+            'borrow_at' =>      'required|date|after_or_equal:' . now(),
             'until_at' =>       'required|date|after_or_equal:borrow_at',
             'room' =>           'required',
             'lecturer' =>       'required',

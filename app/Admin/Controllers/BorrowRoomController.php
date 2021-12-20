@@ -98,15 +98,14 @@ class BorrowRoomController extends Controller
         $grid->id('ID');
         $grid->column('borrower.name', 'Peminjam');
         $grid->column('room.name', 'Ruangan');
-        $grid->column('borrow_at', 'Mulai Pinjam')->display(function ($title, $column) {
-            return Carbon::parse($title)->format('d M Y');
+        $grid->column('borrow_at', 'Mulai Pinjam')->display(function ($borrow_at) {
+            return Carbon::parse($borrow_at)->format('d M Y H:i');
         });
-        $grid->column('until_at', 'Lama Pinjam (hari)')->display(function ($title, $column) {
+        $grid->column('until_at', 'Lama Pinjam')->display(function ($title, $column) {
             $borrow_at = Carbon::parse($this->borrow_at);
             $until_at = Carbon::parse($title);
-            $count_days = $borrow_at->diffInDays($until_at, false);
 
-            return ($count_days + 1) . ' hari';
+            return $until_at->diffForHumans($borrow_at);
         });
         $grid->column('lecturer.name', 'Dosen');
         $grid->column('status', 'Status')->display(function ($title, $column) {

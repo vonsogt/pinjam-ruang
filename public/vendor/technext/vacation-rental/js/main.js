@@ -149,14 +149,8 @@
 	};
 	contentWayPoint();
 
-	$('.appointment_date-check-in').datepicker({
-	  'format': 'm/d/yyyy',
-	  'autoclose': true
-	});
-	$('.appointment_date-check-out').datepicker({
-	  'format': 'm/d/yyyy',
-	  'autoclose': true
-	});
+	$('#borrow_at').datetimepicker();
+	$('#until_at').datetimepicker();
 
 	$('.appointment_time').timepicker();
 

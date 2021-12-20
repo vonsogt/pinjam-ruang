@@ -37,10 +37,7 @@ class BorrowRoom extends Model
      *
      * @var array
      */
-    protected $casts = [
-        'borrow_at' =>  'date',
-        'until_at' =>   'date',
-    ];
+    // protected $casts = [];
 
     /**
      * Relationship

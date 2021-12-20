@@ -38,7 +38,7 @@
                             @endif
                             @if (session('success'))
                                 <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                    Pinjam ruang berhasil, silahkan cek status peminjaman <a href="{{ route('admin.login') }}">disini</a>.
+                                    Pinjam ruang berhasil, silahkan cek status peminjaman <a href="{{ route('admin.login') }}">disini</a>. Masuk menggunakan username dan password NIM.
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -54,7 +54,7 @@
 									<div class="form-group">
 			    					<div class="input-wrap">
 			            		<div class="icon"><span class="ion-md-calendar"></span></div>
-			            		<input name="borrow_at" value="{{ old('borrow_at') }}" type="text" class="form-control appointment_date-check-in" placeholder="Tgl Mulai">
+			            		<input id="borrow_at" name="borrow_at" value="{{ old('borrow_at') }}" type="text" class="form-control appointment_date-check-in datetimepicker-input" placeholder="Tgl Mulai" data-toggle="datetimepicker" data-target="#borrow_at">
 		            		</div>
 			    				</div>
 								</div>
@@ -62,7 +62,7 @@
 									<div class="form-group">
 			    					<div class="input-wrap">
 			            		<div class="icon"><span class="ion-md-calendar"></span></div>
-			            		<input name="until_at" value="{{ old('until_at') }}" type="text" class="form-control appointment_date-check-out" placeholder="Tgl Selesai">
+			            		<input id="until_at" name="until_at" value="{{ old('until_at') }}" type="text" class="form-control appointment_date-check-out datetimepicker-input" placeholder="Tgl Selesai" data-toggle="datetimepicker" data-target="#until_at">
 		            		</div>
 			    				</div>
 								</div>
@@ -154,43 +154,6 @@
           </div>
         </div>
       </section>
-
-    {{-- <section class="ftco-section ftco-services">
-    	<div class="container">
-    		<div class="row">
-          <div class="col-md-4 d-flex services align-self-stretch px-4 ftco-animate">
-            <div class="d-block services-wrap text-center">
-              <div class="img" style="background-image: url(vendor/technext/vacation-rental/images/services-1.jpg);"></div>
-              <div class="media-body py-4 px-3">
-                <h3 class="heading">Map Direction</h3>
-                <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic.</p>
-                <p><a href="#" class="btn btn-primary">Baca selengkapnya</a></p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 d-flex services align-self-stretch px-4 ftco-animate">
-            <div class="d-block services-wrap text-center">
-              <div class="img" style="background-image: url(vendor/technext/vacation-rental/images/services-2.jpg);"></div>
-              <div class="media-body py-4 px-3">
-                <h3 class="heading">Accomodation Services</h3>
-                <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic.</p>
-                <p><a href="#" class="btn btn-primary">Baca selengkapnya</a></p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 d-flex services align-self-stretch px-4 ftco-animate">
-            <div class="d-block services-wrap text-center">
-              <div class="img" style="background-image: url(vendor/technext/vacation-rental/images/services-3.jpg);"></div>
-              <div class="media-body py-4 px-3">
-                <h3 class="heading">Great Experience</h3>
-                <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic.</p>
-                <p><a href="#" class="btn btn-primary">Baca selengkapnya</a></p>
-              </div>
-            </div>
-          </div>
-        </div>
-    	</div>
-    </section> --}}
 
     <section class="ftco-section bg-light">
 			<div class="container-fluid px-md-0">
