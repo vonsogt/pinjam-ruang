@@ -149,8 +149,12 @@
 	};
 	contentWayPoint();
 
-	$('#borrow_at').datetimepicker();
-	$('#until_at').datetimepicker();
+	$('#borrow_at').datetimepicker({
+        format:'DD-MM-YYYY HH:mm',
+    });
+	$('#until_at').datetimepicker({
+        format:'DD-MM-YYYY HH:mm',
+    });
 
 	$('.appointment_time').timepicker();
 
