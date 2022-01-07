@@ -4,7 +4,7 @@
   <p align="center">
     Pinjam Ruang Mudah dan Cepat!
     <br />
-    <a href="http://pinjam-ruang.vonso.online/">Lihat Demo</a>
+    <a href="http://pinjam-ruang.batam-jasa.online/">Lihat Demo</a>
     ·
     <a href="https://github.com/vonsogt/pinjam-ruang/issues">Laporkan Kesalahan</a>
     ·
