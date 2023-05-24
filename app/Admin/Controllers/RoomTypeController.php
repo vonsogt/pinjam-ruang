@@ -87,8 +87,16 @@ class RoomTypeController extends Controller
         $grid->name('Nama');
         $grid->is_active('Aktif?')->bool();
 
-        $grid->created_at(trans('admin.created_at'));
-        $grid->updated_at(trans('admin.updated_at'));
+        $grid->created_at(trans('admin.created_at'))
+            ->display(function ($created_at) {
+                return date('d M Y H:i:s', strtotime($created_at));
+            })
+            ->sortable();
+        $grid->updated_at(trans('admin.updated_at'))
+            ->display(function ($created_at) {
+                return date('d M Y H:i:s', strtotime($created_at));
+            })
+            ->sortable();
 
         // Role & Permission
         if (!\Admin::user()->can('create.room_types'))

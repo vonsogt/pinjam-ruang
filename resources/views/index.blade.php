@@ -92,9 +92,9 @@
 	                      <div class="icon"><span class="fa fa-chevron-down"></span></div>
 	                      <select name="lecturer" id="" class="form-control">
 	                      	<option value="" selected disabled>Pilih dosen</option>
-                            @forelse ($data['lecturers'] as $lecturer)
-                                <option value="{{ $lecturer->id }}" @if(old('lecturer') == $lecturer->id) selected @endif>
-                                    {{ $lecturer->name }}
+                            @forelse ($data['lecturers'] as $key => $lecturerName)
+                                <option value="{{ $key }}" @if(old('lecturer') == $key) selected @endif>
+                                    {{ $lecturerName }}
                                 </option>
                             @empty
                                 <option value="" disabled>Belum ada dosen yang terdaftar</option>
@@ -500,7 +500,7 @@
                             <div class="form-group">
                             <div class="input-wrap">
                         <div class="icon"><span class="ion-md-calendar"></span></div>
-                        <input name="borrow_at" type="text" class="form-control appointment_date-check-in" placeholder="Tgl Mulai">
+                        <input id="borrow_at_alt" name="borrow_at" type="text" class="form-control appointment_date-check-in datetimepicker-input" placeholder="Tgl Mulai" data-toggle="datetimepicker" data-target="#borrow_at_alt">
                     </div>
                         </div>
                         </div>
@@ -508,7 +508,7 @@
                             <div class="form-group">
                             <div class="input-wrap">
                         <div class="icon"><span class="ion-md-calendar"></span></div>
-                        <input name="until_at" type="text" class="form-control appointment_date-check-out" placeholder="Tgl Selesai">
+                        <input id="until_at_alt" name="until_at" type="text" class="form-control appointment_date-check-out datetimepicker-input" placeholder="Tgl Selesai" data-toggle="datetimepicker" data-target="#until_at_alt">
                     </div>
                         </div>
                         </div>
@@ -518,9 +518,9 @@
                           <div class="select-wrap">
                   <select name="lecturer" id="" class="form-control">
                       <option value="" selected disabled>Pilih dosen</option>
-                    @forelse ($data['lecturers'] as $lecturer)
-                        <option value="{{ $lecturer->id }}">
-                            {{ $lecturer->name }}
+                    @forelse ($data['lecturers'] as $key => $lecturerName)
+                        <option value="{{ $key }}">
+                            {{ $lecturerName }}
                         </option>
                     @empty
                         <option value="" disabled>Belum ada dosen yang terdaftar</option>
@@ -567,6 +567,20 @@
     </div>
 
     @section('scripts')
+        <script>
+          // ready
+          $(document).ready(function() {
+            console.log('ready');
+            // Datetimepicker
+            $('.appointment_date-check-in-alt').datetimepicker({
+                format:'DD-MM-YYYY HH:mm',
+            });
+            $('.appointment_date-check-out-alt').datetimepicker({
+                format:'DD-MM-YYYY HH:mm',
+            });
+          });
+        </script>
+
         <script>
             //triggered when modal is about to be shown
             $(document).on('click', '#buttonBorrowRoomModal', function() {

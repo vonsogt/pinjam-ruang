@@ -156,7 +156,14 @@
         format:'DD-MM-YYYY HH:mm',
     });
 
-	$('.appointment_time').timepicker();
+	$('#borrow_at_alt').datetimepicker({
+        format:'DD-MM-YYYY HH:mm',
+    });
+	$('#until_at_alt').datetimepicker({
+        format:'DD-MM-YYYY HH:mm',
+    });
+
+	// $('.appointment_time').timepicker();
 
 
 
