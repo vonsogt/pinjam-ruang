@@ -36,9 +36,9 @@ Pinjam Ruang merupakan sebuah aplikasi berbasis website yang bertujuan untuk mem
 
 ## Demo
 
-Tautan: http://pinjam-ruang.batam-jasa.online/admin
+Tautan: [https://pinjam-ruang.vonsofh.site/admin](https://pinjam-ruang.vonsofh.site/admin)
 
-Akun: demo/demo123
+Akun: admin/admin
 
 ## Gambar
 
